@@ -1,8 +1,8 @@
 <script setup>
 import {useRouter} from "vue-router";
 
-import {useAuthForm} from "@/mixins/form.js";
-import AuthFirebase from "@/services/auth.js";
+import {useAuthForm} from "@/composables/useAuthForm.js";
+import Auth from "@/api/auth.js";
 
 
 const {
@@ -17,14 +17,14 @@ const registration = async () => {
   const valid = await validateForm();
 
   if (valid) {
-    const auth = new AuthFirebase();
+    const auth = new Auth();
 
-    auth.register(
-        form.email,
-        form.password,
-        router,
-        outputError
-    );
+    // auth.register(
+    //     form.email,
+    //     form.password,
+    //     router,
+    //     outputError
+    // );
   }
 }
 </script>
@@ -82,7 +82,7 @@ const registration = async () => {
           class="mb-3"
           type="submit"
           block
-          color="blue-accent-3"
+          color="orange-darken-3"
       >
         Register
       </v-btn>

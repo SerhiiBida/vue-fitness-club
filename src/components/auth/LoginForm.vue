@@ -82,7 +82,7 @@ const authorization = async () => {
           class="mb-3"
           type="submit"
           block
-          color="blue-accent-3"
+          color="orange-darken-3"
       >
         Log in
       </v-btn>

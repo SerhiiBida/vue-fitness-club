@@ -30,12 +30,21 @@ function goToLogin() {
   <!--Верхнее меню-->
   <v-app-bar
       class="header-bar"
-      color="blue-accent-3"
+      color="orange-darken-3"
   >
     <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
     <v-toolbar-title class="header-bar-title" @click="goToHome">
-      Fitness Club
+      <div class="d-flex align-center ga-1">
+        <v-img
+            src="/src/assets/images/logo.png"
+            alt="Logo"
+            max-width="32"
+            class="mr-2"
+        >
+        </v-img>
+        Fitness Club
+      </div>
     </v-toolbar-title>
 
     <v-btn icon>
