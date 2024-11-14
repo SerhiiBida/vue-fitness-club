@@ -17,14 +17,9 @@ const authorization = async () => {
   const valid = await validateForm();
 
   if (valid) {
-    const auth = new Auth();
+    const auth = new Auth(serverError);
 
-    // auth.login(
-    //     form.email,
-    //     form.password,
-    //     router,
-    //     outputError
-    // );
+    await auth.login();
   }
 };
 </script>
