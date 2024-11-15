@@ -5,18 +5,28 @@ export default class Auth {
         this.serverError = serverError;
     }
 
-    async login() {
+    async login(form) {
         try {
-            const response = await api.post("/auth/login");
+            const response = await api.post("/auth/login", form);
 
-            this.serverError = response.data;
+            console.log(response.data.user);
+
+            this.serverError.value = response.data.user;
         } catch (error) {
-            this.serverError = error;
+            this.serverError.value = "Try again later";
         }
     }
 
-    register() {
+    async register(form) {
+        try {
+            const response = await api.post("/auth/register", form);
 
+            console.log(response.data.user);
+
+            this.serverError.value = response.data.user;
+        } catch (error) {
+            this.serverError.value = "Try again later";
+        }
     }
 
     logout() {

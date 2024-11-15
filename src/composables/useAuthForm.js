@@ -3,15 +3,19 @@ import {reactive, ref} from "vue";
 export const useAuthForm = () => {
     const formRef = ref(null);
 
-    const form = reactive({
-        email: "",
-        password: "",
-    });
-
     const regexps = reactive({
+        reUsername: /^[a-zA-Z][a-zA-Z0-9_]{6,18}$/,
         reEmail: /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu,
         rePassword: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,16}$/
     });
+
+    const usernameRules = reactive([
+        v => !!v || "Username is required",
+        v => (v && v.length >= 6 && v.length <= 18)
+            || "The username must have from 6 to 18 characters",
+        v => regexps.reUsername.test(v)
+            || "Starts with a letter, spaces cannot be used"
+    ]);
 
     const emailRules = reactive([
         v => !!v || "Email is required",
@@ -28,30 +32,6 @@ export const useAuthForm = () => {
 
     const serverError = ref("");
 
-    const outputError = (error) => {
-        const errorCode = error.code;
-
-        let errorMessage;
-
-        if (errorCode === "auth/invalid-email") {
-            errorMessage = "Invalid email";
-
-        } else if (errorCode === "auth/user-not-found") {
-            errorMessage = "No account with that email was found";
-
-        } else if (errorCode === "auth/wrong-password") {
-            errorMessage = "Incorrect password";
-
-        } else if (errorCode === "auth/email-already-in-use") {
-            errorMessage = "Email address already in use";
-
-        } else {
-            errorMessage = "Email or password was incorrect";
-        }
-
-        serverError.value = errorMessage;
-    }
-
     const validateForm = async () => {
         const {valid} = await formRef.value.validate();
 
@@ -60,11 +40,10 @@ export const useAuthForm = () => {
 
     return {
         formRef,
-        form,
+        usernameRules,
         emailRules,
         passwordRules,
         serverError,
-        outputError,
         validateForm
     }
 };

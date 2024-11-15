@@ -3,28 +3,31 @@ import {useRouter} from "vue-router";
 
 import {useAuthForm} from "@/composables/useAuthForm.js";
 import Auth from "@/api/auth.js";
-
+import {reactive} from "vue";
 
 const {
-  formRef, form, emailRules, passwordRules,
-  serverError, outputError, validateForm
+  formRef, usernameRules, emailRules, passwordRules,
+  serverError, validateForm
 } = useAuthForm();
 
 const router = useRouter();
 
+// Форма
+const form = reactive({
+  username: "",
+  email: "",
+  password: "",
+});
 
+// Регистрация
 const registration = async () => {
-  const valid = await validateForm();
+
+  const valid = await validateForm(serverError);
 
   if (valid) {
     const auth = new Auth();
 
-    // auth.register(
-    //     form.email,
-    //     form.password,
-    //     router,
-    //     outputError
-    // );
+    await auth.register(form);
   }
 }
 </script>
@@ -53,6 +56,16 @@ const registration = async () => {
         class="register-form"
         @submit.prevent="registration"
     >
+      <v-text-field
+          v-model="form.username"
+          class="mb-2"
+          label="Username"
+          type="text"
+          :rules="usernameRules"
+          variant="outlined"
+          required
+      >
+      </v-text-field>
       <v-text-field
           v-model="form.email"
           class="mb-2"

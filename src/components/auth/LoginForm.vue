@@ -3,23 +3,30 @@ import {useRouter} from "vue-router";
 
 import {useAuthForm} from "@/composables/useAuthForm.js";
 import Auth from "@/api/auth.js";
+import {reactive} from "vue";
 
 
 const {
-  formRef, form, emailRules, passwordRules,
-  serverError, outputError, validateForm
+  formRef, emailRules, passwordRules,
+  serverError, validateForm
 } = useAuthForm();
 
 const router = useRouter();
 
+// Форма
+const form = reactive({
+  email: "",
+  password: "",
+});
 
+// Авторизация
 const authorization = async () => {
   const valid = await validateForm();
 
   if (valid) {
     const auth = new Auth(serverError);
 
-    await auth.login();
+    await auth.login(form);
   }
 };
 </script>
