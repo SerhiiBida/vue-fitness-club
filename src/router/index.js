@@ -14,11 +14,17 @@ const router = createRouter({
             path: "/user/login",
             name: "login",
             component: () => import("@/views/auth/LoginView.vue"),
+            meta: {
+                middleware: [auth],
+            }
         },
         {
             path: "/user/register",
             name: "register",
             component: () => import("@/views/auth/RegisterView.vue"),
+            meta: {
+                middleware: [auth],
+            }
         },
         {
             path: "/workouts",
