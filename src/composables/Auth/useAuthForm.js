@@ -30,7 +30,18 @@ export const useAuthForm = () => {
             || "Requires one number, an uppercase letter, a lowercase letter, and a special character"
     ]);
 
-    const serverError = ref("");
+    const serverErrors = reactive({
+        username: [],
+        email: [],
+        password: [],
+        general: ""
+    });
+
+    const resetServerErrors = () => {
+        Object.keys(serverErrors).forEach((key) => {
+            serverErrors[key] = Array.isArray(serverErrors[key]) ? [] : "";
+        })
+    }
 
     const validateForm = async () => {
         const {valid} = await formRef.value.validate();
@@ -43,7 +54,8 @@ export const useAuthForm = () => {
         usernameRules,
         emailRules,
         passwordRules,
-        serverError,
+        serverErrors,
+        resetServerErrors,
         validateForm
     }
 };

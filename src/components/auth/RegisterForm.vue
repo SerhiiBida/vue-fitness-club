@@ -1,13 +1,13 @@
 <script setup>
 import {useRouter} from "vue-router";
-
-import {useAuthForm} from "@/composables/useAuthForm.js";
-import Auth from "@/api/auth.js";
 import {reactive} from "vue";
+
+import {useAuthForm} from "@/composables/Auth/useAuthForm.js";
+import {useAuth} from "@/composables/Auth/useAuth.js";
 
 const {
   formRef, usernameRules, emailRules, passwordRules,
-  serverError, validateForm
+  serverErrors, resetServerErrors, validateForm
 } = useAuthForm();
 
 const router = useRouter();
@@ -21,13 +21,14 @@ const form = reactive({
 
 // Регистрация
 const registration = async () => {
-
-  const valid = await validateForm(serverError);
+  const valid = await validateForm();
 
   if (valid) {
-    const auth = new Auth();
+    resetServerErrors();
 
-    await auth.register(form);
+    const {register} = useAuth(router, serverErrors);
+
+    await register(form);
   }
 }
 </script>
@@ -62,6 +63,8 @@ const registration = async () => {
           label="Username"
           type="text"
           :rules="usernameRules"
+          :error-messages="serverErrors.username"
+          @input="serverErrors.username.length = 0"
           variant="outlined"
           required
       >
@@ -72,6 +75,8 @@ const registration = async () => {
           label="Email"
           type="email"
           :rules="emailRules"
+          :error-messages="serverErrors.email"
+          @input="serverErrors.email.length = 0"
           variant="outlined"
           required
       >
@@ -82,13 +87,15 @@ const registration = async () => {
           label="Password"
           type="password"
           :rules="passwordRules"
+          :error-messages="serverErrors.password"
+          @input="serverErrors.password.length = 0"
           variant="outlined"
           required
       >
       </v-text-field>
 
       <p class="text-red text-center mb-1">
-        {{ serverError }}
+        {{ serverErrors.general }}
       </p>
 
       <v-btn

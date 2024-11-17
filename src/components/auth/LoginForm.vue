@@ -1,14 +1,14 @@
 <script setup>
 import {useRouter} from "vue-router";
 
-import {useAuthForm} from "@/composables/useAuthForm.js";
-import Auth from "@/api/auth.js";
+import {useAuthForm} from "@/composables/Auth/useAuthForm.js";
+import {useAuth} from "@/composables/Auth/useAuth.js";
 import {reactive} from "vue";
 
 
 const {
   formRef, emailRules, passwordRules,
-  serverError, validateForm
+  serverErrors, validateForm
 } = useAuthForm();
 
 const router = useRouter();
@@ -24,9 +24,7 @@ const authorization = async () => {
   const valid = await validateForm();
 
   if (valid) {
-    const auth = new Auth(serverError);
 
-    await auth.login(form);
   }
 };
 </script>

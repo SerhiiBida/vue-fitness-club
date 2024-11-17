@@ -1,5 +1,8 @@
 import axios from "axios";
-import {getCookie} from "@/utils/cookie.js";
+
+import {useCookie} from "@/composables/useCookie.js";
+
+const {getCookie} = useCookie();
 
 const api = axios.create({
     baseURL: 'http://localhost:8080/api'
