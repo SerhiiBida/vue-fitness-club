@@ -1,11 +1,13 @@
 import {useCookie} from "@/composables/useCookie.js";
 import {useAuth} from "@/composables/Auth/useAuth.js";
-
-const {getCookie} = useCookie();
-const {checkAuthentication} = useAuth();
+import {useUserStore} from "@/stores/user.js";
 
 // Проверка авторизации пользователя
 export default async function auth(to, from) {
+    const {getCookie} = useCookie();
+    const {checkAuthentication} = useAuth();
+    const userStore = useUserStore();
+
     const authPages = ["login", "register"];
 
     let isAuthenticated;
@@ -32,7 +34,9 @@ export default async function auth(to, from) {
     }
 
     // Обновить данные про пользователя в Store
-    // ...
+    if (isAuthenticated && !userStore.isAuthenticated) {
+        await userStore.updateUser();
+    }
 
     return true;
 }
