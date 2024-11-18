@@ -1,7 +1,7 @@
 import api from "@/api/axios.js";
 import {useCookie} from "@/composables/useCookie.js";
 
-export const useAuth = (router, displayServerErrors) => {
+export const useAuth = (router = undefined, displayServerErrors = undefined) => {
     const {setCookie} = useCookie();
 
     const register = async (form) => {
@@ -66,7 +66,7 @@ export const useAuth = (router, displayServerErrors) => {
         setCookie("token", "", {"max-age": 0});
 
         await router.push({
-            name: "home"
+            name: "login"
         });
     };
 

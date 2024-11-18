@@ -13,11 +13,8 @@ export const useUserStore = defineStore("user", () => {
         token: "",
         username: "",
         email: "",
+        roleName: "",
         isAuthenticated: false
-    });
-
-    const getUser = computed(() => {
-        return user;
     });
 
     const isAuthenticated = computed(() => {
@@ -48,6 +45,9 @@ export const useUserStore = defineStore("user", () => {
                 } else if (key === "isAuthenticated") {
                     user[key] = true;
 
+                } else if (key === "roleName") {
+                    user[key] = userData["role_name"];
+
                 } else {
                     user[key] = userData[key];
                 }
@@ -65,7 +65,7 @@ export const useUserStore = defineStore("user", () => {
     }
 
     return {
-        getUser,
+        user,
         isAuthenticated,
         updateUser
     };
