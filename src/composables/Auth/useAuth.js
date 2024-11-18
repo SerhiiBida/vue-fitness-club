@@ -10,7 +10,7 @@ export const useAuth = (router, displayServerErrors) => {
 
             const token = response.data.token;
 
-            setCookie("token", token, {secure: true, 'max-age': 7200})
+            setCookie("token", token, {secure: true, "max-age": 7200})
 
             await router.push({
                 name: "workouts"
@@ -20,64 +20,80 @@ export const useAuth = (router, displayServerErrors) => {
             if (error.response?.status === 422) {
                 const rawErrors = error.response.data.errors;
 
+                displayServerErrors.general = error.response.data?.message;
+
                 sortErrors(rawErrors);
             } else {
                 displayServerErrors.general = "Try again later";
             }
         }
-    }
+    };
+
+    const login = async (form) => {
+        try {
+            const response = await api.post("/auth/login", form);
+
+            const token = response.data.token;
+
+            setCookie("token", token, {secure: true, "max-age": 7200})
+
+            await router.push({
+                name: "workouts"
+            });
+
+        } catch (error) {
+            if (error.response?.status === 422) {
+                const rawErrors = error.response.data.errors;
+
+                console.log(error.response.data);
+
+                displayServerErrors.general = error.response.data?.message;
+
+                sortErrors(rawErrors);
+            } else {
+                displayServerErrors.general = "Try again later";
+            }
+        }
+    };
+
+    const logout = async () => {
+        try {
+            const response = await api.post("/auth/logout");
+        } catch (error) {
+            console.log(error.response?.status);
+        }
+
+        setCookie("token", "", {"max-age": 0});
+
+        await router.push({
+            name: "home"
+        });
+    };
+
+    // Проверка авторизации
+    const checkAuthentication = async () => {
+        try {
+            const response = await api.post("/auth/check");
+
+            return true;
+
+        } catch (error) {
+            setCookie("token", "", {"max-age": 0});
+
+            return false;
+        }
+    };
 
     const sortErrors = (rawErrors) => {
         Object.keys(rawErrors).forEach((key) => {
             displayServerErrors[key].push(...rawErrors[key]);
         });
-    }
+    };
 
     return {
-        register
+        register,
+        login,
+        logout,
+        checkAuthentication
     }
-}
-
-// export default class UseAuth {
-//     constructor(serverErrors) {
-//         this.serverErrors = serverErrors;
-//     }
-//
-//     async login(form) {
-//         try {
-//             const response = await api.post("/auth/login", form);
-//
-//             console.log(response.data.user);
-//
-//         } catch (error) {
-//             // this.serverError.value = "Try again later";
-//         }
-//     }
-//
-//     async register(form) {
-//         try {
-//             const response = await api.post("/auth/register", form);
-//
-//             const token = response.data.token;
-//
-//             setCookie()
-//
-//         } catch (error) {
-//             if (error.response.status === 422) {
-//                 this.getSortErrors(error.response.data.errors);
-//             } else {
-//                 this.serverErrors.general = "Try again later";
-//             }
-//         }
-//     }
-//
-//     logout() {
-//
-//     }
-//
-//     getSortErrors(errors) {
-//         Object.keys(errors).forEach((key) => {
-//             this.serverErrors[key].push(...errors[key]);
-//         });
-//     }
-// }
+};

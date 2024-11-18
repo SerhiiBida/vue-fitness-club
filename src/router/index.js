@@ -49,9 +49,7 @@ router.beforeEach(async (to, from) => {
 
     if (Array.isArray(middleware)) {
         for (let i = 0; i < middleware.length; i++) {
-            const result = middleware[i](to, from);
-
-            console.log(typeof result)
+            const result = await middleware[i](to, from);
 
             if (typeof result === "object") {
                 return result;

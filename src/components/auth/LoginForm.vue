@@ -1,14 +1,14 @@
 <script setup>
 import {useRouter} from "vue-router";
+import {reactive} from "vue";
 
 import {useAuthForm} from "@/composables/Auth/useAuthForm.js";
 import {useAuth} from "@/composables/Auth/useAuth.js";
-import {reactive} from "vue";
 
 
 const {
-  formRef, emailRules, passwordRules,
-  serverErrors, validateForm
+  formRef, usernameRules, emailRules, passwordRules,
+  serverErrors, resetServerErrors, validateForm
 } = useAuthForm();
 
 const router = useRouter();
@@ -24,7 +24,11 @@ const authorization = async () => {
   const valid = await validateForm();
 
   if (valid) {
+    resetServerErrors();
 
+    const {login} = useAuth(router, serverErrors);
+
+    await login(form);
   }
 };
 </script>
@@ -59,6 +63,8 @@ const authorization = async () => {
           label="Email"
           type="email"
           :rules="emailRules"
+          :error-messages="serverErrors.email"
+          @input="serverErrors.email.length = 0"
           variant="outlined"
           required
       >
@@ -69,13 +75,15 @@ const authorization = async () => {
           label="Password"
           type="password"
           :rules="passwordRules"
+          :error-messages="serverErrors.password"
+          @input="serverErrors.password.length = 0"
           variant="outlined"
           required
       >
       </v-text-field>
 
       <p class="text-red text-center mb-1">
-        {{ serverError }}
+        {{ serverErrors.general }}
       </p>
 
       <v-btn

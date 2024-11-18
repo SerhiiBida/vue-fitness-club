@@ -1,27 +1,35 @@
 import {useCookie} from "@/composables/useCookie.js";
+import {useAuth} from "@/composables/Auth/useAuth.js";
 
 const {getCookie} = useCookie();
+const {checkAuthentication} = useAuth();
 
 // Проверка авторизации пользователя
-export default function auth(to, from) {
+export default async function auth(to, from) {
     const authPages = ["login", "register"];
 
+    let isAuthenticated;
+
+    // Статус авторизации
+    if (typeof getCookie("token") !== "undefined") {
+        isAuthenticated = await checkAuthentication();
+    } else {
+        isAuthenticated = false;
+    }
+
     // Авторизованный, пытается зарегистрироваться
-    if (authPages.includes(to.name) && typeof getCookie("token") !== "undefined") {
+    if (authPages.includes(to.name) && isAuthenticated) {
         return {
             name: "workouts"
         };
     }
 
-    // setCookie("token", "", {'max-age': 0});
-    if (typeof getCookie("token") === "undefined") {
+    // Не авторизован
+    if (!authPages.includes(to.name) && !isAuthenticated) {
         return {
             name: "login"
         };
     }
-
-    // Проверить токен на валидность
-    // ...
 
     // Обновить данные про пользователя в Store
     // ...
