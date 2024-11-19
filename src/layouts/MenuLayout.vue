@@ -40,7 +40,7 @@ const {logout} = useAuth(router);
           class="header-drawer-auth-info"
           prepend-avatar="/src/assets/images/user-default.png"
           :title="userStore.user.email"
-          :subtitle="userStore.user.roleName"
+          :subtitle="`Bonuses ${userStore.user.bonuses}`"
       ></v-list-item>
     </v-list>
 
