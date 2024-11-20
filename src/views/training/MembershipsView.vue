@@ -1,10 +1,7 @@
 <script setup>
-import MembershipCard from "@/components/training/MembershipCard.vue";
+import Memberships from "@/components/training/Memberships.vue";
 </script>
 
 <template>
-  <h2>
-    Memberships
-  </h2>
-  <MembershipCard/>
+  <Memberships/>
 </template>

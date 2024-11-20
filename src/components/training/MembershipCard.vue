@@ -27,6 +27,8 @@ const buyMembership = async () => {
       :loading="loading"
       class="mx-auto"
       max-width="374"
+      height="490"
+      border
   >
     <template v-slot:loader="{ isActive }">
       <v-progress-linear
@@ -39,55 +41,62 @@ const buyMembership = async () => {
 
     <v-img
         max-height="250"
-        src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-        cover
+        src="src/assets/images/ball.png"
+        contain
     ></v-img>
 
-    <!--Название и бонусы-->
     <v-card-item>
+      <!--Название-->
       <v-card-title>
         Monthly membership
       </v-card-title>
 
       <v-card-subtitle>
-        <span class="me-1">
-          + 100
+        <span>
+          Valid 60 days
         </span>
-
-        <v-icon
-            color="orange-darken-4"
-            icon="mdi-star-four-points-circle-outline"
-            size="small"
-        ></v-icon>
       </v-card-subtitle>
+
+      <v-card-title class="d-flex justify-space-between">
+        <!--Цена и скидка-->
+        <div class="d-flex align-center ga-1">
+          <span class="text-h4 text-red font-weight-bold">
+            $40
+          </span>
+          <del class="text-grey font-weight-bold">
+            $55
+          </del>
+        </div>
+
+        <!--Бонус-->
+        <div class="d-flex align-center">
+          <span class="me-1">
+          +100
+          </span>
+          <v-icon
+              color="orange-darken-4"
+              icon="mdi-star-four-points-circle-outline"
+              size="small"
+          ></v-icon>
+        </div>
+      </v-card-title>
     </v-card-item>
 
     <!--Описание абонемента-->
     <v-card-text>
-      <div>
+      <div class="text-justify text-multiline">
         Small plates, salads & sandwiches - an intimate
         setting with 12 indoor seats plus patio seating.
       </div>
     </v-card-text>
 
-    <v-divider class="mx-4 mb-1"></v-divider>
-
-    <!--Стоимость и скидка-->
-    <v-card-title align="center">
-      <span class="text-red font-weight-bold">
-        $40
-      </span>
-      <del class="text-grey font-weight-bold">
-        $55
-      </del>
-    </v-card-title>
 
     <v-card-actions>
       <v-btn
-          color="orange-darken-3"
+          color="orange-darken-2"
           text="Buy"
           block
-          border
+          variant="flat"
           @click="buyMembership"
       ></v-btn>
     </v-card-actions>
