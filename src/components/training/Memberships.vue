@@ -4,6 +4,10 @@ import {reactive, ref} from "vue";
 import MembershipCard from "@/components/training/cards/MembershipCard.vue";
 import MembershipSearchForm from "@/components/training/forms/MembershipSearchForm.vue";
 
+// Глобальное закрытие доступа к отправкам запросов
+const globalDisable = ref(true);
+
+// Все абонементы
 const memberships = reactive([
   {id: 1},
   {id: 2},
@@ -27,18 +31,46 @@ const memberships = reactive([
   {id: 20},
 ]);
 
+// Параметры для получения данных через API
+const params = reactive({
+  sort: "",
+  filter: "",
+  search: "",
+  currentPage: "",
+  perPage: 20, // Карточек на страницу
+});
+
+// Запрос на получение данных
+const getMembershipsThroughSearch = async () => {
+
+};
+
+// Запуск поиска формы
+const search = (sort, filter, search) => {
+  globalDisable.value = true;
+
+  params.sort = sort;
+  params.filter = filter;
+  params.search = search;
+  params.currentPage = 1;
+
+  // Запрос получения данных
+  // ...
+
+  // Обновление пагинации
+
+  globalDisable.value = false;
+};
+
 // Пагинация
-const currentPage = ref(4);
+const currentPage = ref(1);
 
 const totalPages = ref(32);
-
-// Глобальное закрытие доступа к отправкам запросов
-const globalDisable = ref(true);
 </script>
 
 <template>
   <!--Форма фильтрации, сортировки, поиска-->
-  <MembershipSearchForm :global-disable="globalDisable"/>
+  <MembershipSearchForm :global-disable="globalDisable" @search="search"/>
 
   <!--Карточки-->
   <v-container>

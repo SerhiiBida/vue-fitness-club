@@ -1,13 +1,10 @@
 <script setup>
 import {computed, ref} from "vue";
 
-const props = defineProps({
+const {membership, globalDisable} = defineProps({
   membership: Object,
   globalDisable: Boolean
 });
-
-// Данные карточки
-const membership = computed(() => props.membership);
 
 // Загрузка карточки
 const loading = ref(false);
@@ -24,7 +21,7 @@ const buyMembership = async () => {
 
 <template>
   <v-card
-      :disabled="props.globalDisable || loading"
+      :disabled="globalDisable || loading"
       :loading="loading"
       class="mx-auto"
       max-width="374"

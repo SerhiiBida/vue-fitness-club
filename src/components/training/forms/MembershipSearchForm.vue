@@ -1,7 +1,7 @@
 <script setup>
 import {reactive} from "vue";
 
-const props = defineProps({
+const {globalDisable} = defineProps({
   globalDisable: Boolean
 });
 
@@ -11,10 +11,7 @@ const form = reactive({
   search: ""
 });
 
-// Поиск
-const search = async () => {
-
-};
+const items = ['name', 'price', 'bonuses'];
 </script>
 
 <template>
@@ -23,7 +20,7 @@ const search = async () => {
       action="#"
       method="get"
       class="membership-search-form"
-      @submit.prevent="search"
+      @submit.prevent="$emit('search', form.sort, form.filter, form.search)"
   >
     <v-container
         class="mx-auto pb-0"
@@ -37,7 +34,7 @@ const search = async () => {
           <v-select
               v-model="form.sort"
               label="Sort"
-              :items="['name', 'price', 'bonuses']"
+              :items="items"
               variant="outlined"
           >
           </v-select>
@@ -51,7 +48,7 @@ const search = async () => {
           <v-select
               v-model="form.filter"
               label="Filter"
-              :items="['name', 'price', 'bonuses']"
+              :items="items"
               variant="outlined"
           >
           </v-select>
