@@ -27,9 +27,25 @@ const router = createRouter({
             }
         },
         {
+            path: "/user/profile",
+            name: "profile",
+            component: () => import("@/views/user/ProfileView.vue"),
+            meta: {
+                middleware: [auth],
+            }
+        },
+        {
             path: "/workouts",
             name: "workouts",
             component: () => import("@/views/training/WorkoutsView.vue"),
+            meta: {
+                middleware: [auth],
+            }
+        },
+        {
+            path: "/memberships",
+            name: "memberships",
+            component: () => import("@/views/training/MembershipsView.vue"),
             meta: {
                 middleware: [auth],
             }
@@ -58,4 +74,4 @@ router.beforeEach(async (to, from) => {
     }
 });
 
-export default router
+export default router;

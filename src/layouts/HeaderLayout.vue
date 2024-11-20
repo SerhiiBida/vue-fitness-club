@@ -5,7 +5,7 @@ import {useRouter} from "vue-router";
 import MenuLayout from "@/layouts/MenuLayout.vue";
 
 // Отображение бокового меню
-const drawer = ref(false);
+const drawer = ref(true);
 
 // Навигация
 const router = useRouter();

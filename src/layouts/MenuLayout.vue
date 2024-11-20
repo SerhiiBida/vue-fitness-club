@@ -17,9 +17,21 @@ function goToLogin() {
   });
 }
 
+function goToProfile() {
+  router.push({
+    name: "profile"
+  });
+}
+
 function goToWorkouts() {
   router.push({
     name: "workouts"
+  });
+}
+
+function goToMemberships() {
+  router.push({
+    name: "memberships"
   });
 }
 
@@ -55,10 +67,24 @@ const {logout} = useAuth(router);
       <template v-if="userStore.isAuthenticated">
         <!--Авторизован-->
         <v-list-item
+            prepend-icon="mdi-account-outline"
+            title="Profile"
+            value="profile"
+            @click="goToProfile"
+        >
+        </v-list-item>
+        <v-list-item
             prepend-icon="mdi-soccer"
             title="Workouts"
             value="workouts"
             @click="goToWorkouts"
+        >
+        </v-list-item>
+        <v-list-item
+            prepend-icon="mdi-basket-plus-outline"
+            title="Memberships"
+            value="memberships"
+            @click="goToMemberships"
         >
         </v-list-item>
       </template>
