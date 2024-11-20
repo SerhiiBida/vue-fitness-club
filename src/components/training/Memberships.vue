@@ -1,7 +1,8 @@
 <script setup>
 import {reactive, ref} from "vue";
 
-import MembershipCard from "@/components/training/MembershipCard.vue";
+import MembershipCard from "@/components/training/cards/MembershipCard.vue";
+import MembershipSearchForm from "@/components/training/forms/MembershipSearchForm.vue";
 
 const memberships = reactive([
   {id: 1},
@@ -29,6 +30,10 @@ const memberships = reactive([
 </script>
 
 <template>
+  <!--Форма фильтрации, сортировки, поиска-->
+  <MembershipSearchForm/>
+
+  <!--Карточки-->
   <v-container>
     <v-row>
       <v-col
