@@ -27,11 +27,18 @@ const memberships = reactive([
   {id: 20},
 ]);
 
+// Пагинация
+const currentPage = ref(4);
+
+const totalPages = ref(32);
+
+// Глобальное закрытие доступа к отправкам запросов
+const globalDisable = ref(true);
 </script>
 
 <template>
   <!--Форма фильтрации, сортировки, поиска-->
-  <MembershipSearchForm/>
+  <MembershipSearchForm :global-disable="globalDisable"/>
 
   <!--Карточки-->
   <v-container>
@@ -44,8 +51,28 @@ const memberships = reactive([
           md="4"
           lg="3"
       >
-        <MembershipCard :membership="membership"/>
+        <MembershipCard :membership="membership" :global-disable="globalDisable"/>
       </v-col>
     </v-row>
   </v-container>
+
+  <!--Пагинация-->
+  <div class="text-center">
+    <v-container class="pt-0">
+      <v-row justify="center">
+        <v-col
+            cols="12"
+            md="8"
+        >
+          <v-container class="max-width pt-1">
+            <v-pagination
+                v-model="currentPage"
+                :length="totalPages"
+                :disabled="globalDisable"
+            ></v-pagination>
+          </v-container>
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
 </template>

@@ -2,7 +2,8 @@
 import {computed, ref} from "vue";
 
 const props = defineProps({
-  membership: Object
+  membership: Object,
+  globalDisable: Boolean
 });
 
 // Данные карточки
@@ -23,7 +24,7 @@ const buyMembership = async () => {
 
 <template>
   <v-card
-      :disabled="loading"
+      :disabled="props.globalDisable || loading"
       :loading="loading"
       class="mx-auto"
       max-width="374"
