@@ -5,7 +5,7 @@ import MembershipCard from "@/components/training/cards/MembershipCard.vue";
 import MembershipSearchForm from "@/components/training/forms/MembershipSearchForm.vue";
 
 // Глобальное закрытие доступа к отправкам запросов
-const globalDisable = ref(true);
+const globalDisable = ref(false);
 
 // Все абонементы
 const memberships = reactive([
@@ -33,10 +33,10 @@ const memberships = reactive([
 
 // Параметры для получения данных через API
 const params = reactive({
-  sort: "",
-  filter: "",
-  search: "",
-  currentPage: "",
+  sort: null,
+  filter: null,
+  search: null,
+  currentPage: null,
   perPage: 20, // Карточек на страницу
 });
 
@@ -53,6 +53,8 @@ const search = (sort, filter, search) => {
   params.filter = filter;
   params.search = search;
   params.currentPage = 1;
+
+  console.log(sort)
 
   // Запрос получения данных
   // ...

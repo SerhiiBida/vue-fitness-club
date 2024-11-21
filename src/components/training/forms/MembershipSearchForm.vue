@@ -6,12 +6,25 @@ const {globalDisable} = defineProps({
 });
 
 const form = reactive({
-  sort: "",
-  filter: "",
-  search: ""
+  sort: null,
+  filter: null,
+  search: null
 });
 
-const items = ['name', 'price', 'bonuses'];
+const sortItems = reactive([
+  {value: "name", title: "Name"},
+  {value: "price", title: "Price"},
+  {value: "validity_days", title: "Validity Days"},
+  {value: "bonus", title: "Bonus"},
+  {value: "discount", title: "Discount"}
+]);
+
+const filterPriceItems = reactive([
+  {value: 0, title: "0 - 99$"},
+  {value: 1, title: "100$ -499$"},
+  {value: 2, title: "500$ - 999$"},
+  {value: 3, title: "1000$+"}
+]);
 </script>
 
 <template>
@@ -34,7 +47,9 @@ const items = ['name', 'price', 'bonuses'];
           <v-select
               v-model="form.sort"
               label="Sort"
-              :items="items"
+              :items="sortItems"
+              item-value="value"
+              item-title="title"
               variant="outlined"
           >
           </v-select>
@@ -47,8 +62,10 @@ const items = ['name', 'price', 'bonuses'];
         >
           <v-select
               v-model="form.filter"
-              label="Filter"
-              :items="items"
+              label="Price"
+              :items="filterPriceItems"
+              item-value="value"
+              item-title="title"
               variant="outlined"
           >
           </v-select>
