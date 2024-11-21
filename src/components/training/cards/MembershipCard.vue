@@ -1,22 +1,35 @@
 <script setup>
 import {computed, ref} from "vue";
+import {useRouter} from "vue-router";
+
+import {useImage} from "@/composables/useImage.js";
 
 const {membership, globalDisable} = defineProps({
   membership: Object,
   globalDisable: Boolean
 });
 
+const {getFullPathPicture} = useImage('/memberships/default/default.png');
+
 // Загрузка карточки
 const loading = ref(false);
 
 // Покупка абонемента
-const buyMembership = async () => {
-  loading.value = true;
+// const buyMembership = async () => {
+//   loading.value = true;
+//
+//   setTimeout(() => {
+//     loading.value = false;
+//   }, 2000);
+// };
 
-  setTimeout(() => {
-    loading.value = false;
-  }, 2000);
-};
+const router = useRouter();
+
+function goToDetail() {
+  router.push({
+    name: 'home'
+  });
+}
 </script>
 
 <template>
@@ -39,7 +52,7 @@ const buyMembership = async () => {
 
     <v-img
         max-height="250"
-        src="src/assets/images/ball.png"
+        :src="getFullPathPicture"
         contain
     ></v-img>
 
@@ -92,10 +105,10 @@ const buyMembership = async () => {
     <v-card-actions>
       <v-btn
           color="orange-darken-2"
-          text="Buy"
+          text="Detail"
           block
           variant="flat"
-          @click="buyMembership"
+          @click="goToDetail"
       ></v-btn>
     </v-card-actions>
   </v-card>
