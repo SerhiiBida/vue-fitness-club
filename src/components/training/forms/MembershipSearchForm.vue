@@ -13,10 +13,9 @@ const form = reactive({
 
 const sortItems = reactive([
   {value: "name", title: "Name"},
-  {value: "price", title: "Price"},
+  {value: "discounted_price", title: "Price"},
   {value: "validity_days", title: "Validity Days"},
-  {value: "bonus", title: "Bonus"},
-  {value: "discount", title: "Discount"}
+  {value: "bonuses", title: "Bonus"}
 ]);
 
 const filterPriceItems = reactive([

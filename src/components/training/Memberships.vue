@@ -36,7 +36,7 @@ const params = reactive({
   sort: null,
   filter: null,
   search: null,
-  currentPage: null,
+  nextPage: null,
   perPage: 20, // Карточек на страницу
 });
 
@@ -52,7 +52,7 @@ const search = (sort, filter, search) => {
   params.sort = sort;
   params.filter = filter;
   params.search = search;
-  params.currentPage = 1;
+  params.nextPage = 1;
 
   console.log(sort)
 
