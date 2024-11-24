@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, reactive, ref, watch} from "vue";
+import {nextTick, onMounted, reactive, ref, watch} from "vue";
 
 import MembershipCard from "@/components/training/cards/MembershipCard.vue";
 import MembershipSearchForm from "@/components/training/forms/MembershipSearchForm.vue";
@@ -12,6 +12,7 @@ const router = useRouter();
 const globalDisable = ref(false);
 
 // Пагинация
+const membershipContainer = ref(null);
 const currentPage = ref(1);
 const totalPages = ref(1);
 const isOldPagination = ref(true);
@@ -57,24 +58,27 @@ const getMembershipsPagination = async () => {
 const search = async (page, sort = null, filter = null, search = null) => {
   globalDisable.value = true;
 
+  // Прокручиваем страницу вверх
+  await nextTick(() => {
+    membershipContainer.value.scrollIntoView({behavior: 'smooth'});
+  });
+
   params.page = page;
 
-  if (typeof sort !== null) {
+  if (sort !== null) {
     params.sort = sort;
   }
 
-  if (typeof filter !== null) {
+  if (filter !== null) {
     params.filter = filter;
   }
 
-  if (typeof search !== null) {
+  if (search !== null) {
     params.search = search;
   }
 
   // Запрос получения данных
   const membershipsData = await getMembershipsPagination();
-
-  console.log(membershipsData);
 
   memberships.items = membershipsData['data'] ?? [];
 
@@ -94,7 +98,6 @@ watch(currentPage, async (newPage, oldPage) => {
   if (isOldPagination.value) {
     isOldPagination.value = false;
 
-    console.log(newPage)
     await search(newPage);
 
     isOldPagination.value = true;
@@ -103,7 +106,10 @@ watch(currentPage, async (newPage, oldPage) => {
 </script>
 
 <template>
-  <div class="membership-container">
+  <div
+      ref="membershipContainer"
+      class="membership-container"
+  >
     <!--Форма фильтрации, сортировки, поиска-->
     <MembershipSearchForm :global-disable="globalDisable" @search="search"/>
 

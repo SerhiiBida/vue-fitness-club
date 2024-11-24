@@ -46,12 +46,12 @@ function goToDetail() {
     <v-card-item>
       <!--Название-->
       <v-card-title>
-        Monthly membership
+        {{ membership['name'] }}
       </v-card-title>
 
       <v-card-subtitle>
         <span>
-          Valid 60 days
+          Valid {{ membership['validity_days'] }} days
         </span>
       </v-card-subtitle>
 
@@ -59,17 +59,17 @@ function goToDetail() {
         <!--Цена и скидка-->
         <div class="d-flex align-center ga-1">
           <span class="text-h4 text-red font-weight-bold">
-            $40
+            {{ membership['discounted_price'] }}
           </span>
           <del class="text-grey font-weight-bold">
-            $55
+            {{ membership['price'] }}
           </del>
         </div>
 
         <!--Бонус-->
         <div class="d-flex align-center">
-          <span class="me-1">
-          +100
+          <span class="text-body-2 me-1">
+          +{{ membership['bonuses'] }}
           </span>
           <v-icon
               color="orange-darken-4"
@@ -83,8 +83,7 @@ function goToDetail() {
     <!--Описание абонемента-->
     <v-card-text>
       <div class="text-justify text-multiline">
-        Small plates, salads & sandwiches - an intimate
-        setting with 12 indoor seats plus patio seating.
+        {{ membership['description'] }}
       </div>
     </v-card-text>
 
