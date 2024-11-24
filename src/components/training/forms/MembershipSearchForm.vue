@@ -12,6 +12,7 @@ const form = reactive({
 });
 
 const sortItems = reactive([
+  {value: "default", title: "Default"},
   {value: "name", title: "Name"},
   {value: "discounted_price", title: "Price"},
   {value: "validity_days", title: "Validity Days"},
@@ -19,6 +20,7 @@ const sortItems = reactive([
 ]);
 
 const filterPriceItems = reactive([
+  {value: "default", title: "Default"},
   {value: 0, title: "0 - 99$"},
   {value: 1, title: "100$ -499$"},
   {value: 2, title: "500$ - 999$"},
@@ -32,7 +34,7 @@ const filterPriceItems = reactive([
       action="#"
       method="get"
       class="membership-search-form"
-      @submit.prevent="$emit('search', form.sort, form.filter, form.search)"
+      @submit.prevent="$emit('search', 1, form.sort, form.filter, form.search)"
   >
     <v-container
         class="mx-auto pb-0"

@@ -1,112 +1,155 @@
 <script setup>
-import {reactive, ref} from "vue";
+import {onMounted, reactive, ref, watch} from "vue";
 
 import MembershipCard from "@/components/training/cards/MembershipCard.vue";
 import MembershipSearchForm from "@/components/training/forms/MembershipSearchForm.vue";
+import api from "@/api/axios.js";
+import {useRouter} from "vue-router";
+
+const router = useRouter();
 
 // Глобальное закрытие доступа к отправкам запросов
 const globalDisable = ref(false);
 
+// Пагинация
+const currentPage = ref(1);
+const totalPages = ref(1);
+const isOldPagination = ref(true);
+
 // Все абонементы
-const memberships = reactive([
-  {id: 1},
-  {id: 2},
-  {id: 3},
-  {id: 4},
-  {id: 5},
-  {id: 6},
-  {id: 7},
-  {id: 8},
-  {id: 9},
-  {id: 10},
-  {id: 11},
-  {id: 12},
-  {id: 13},
-  {id: 14},
-  {id: 15},
-  {id: 16},
-  {id: 17},
-  {id: 18},
-  {id: 19},
-  {id: 20},
-]);
+const memberships = reactive({
+  items: []
+});
 
 // Параметры для получения данных через API
 const params = reactive({
   sort: null,
   filter: null,
   search: null,
-  nextPage: null,
+  page: null,
   perPage: 20, // Карточек на страницу
 });
 
 // Запрос на получение данных
-const getMembershipsThroughSearch = async () => {
+const getMembershipsPagination = async () => {
+  try {
+    const response = await api.get("/memberships/search", {
+      params: {
+        ...params
+      }
+    });
 
+    return response.data;
+
+  } catch (error) {
+    if (error.response?.status === 401) {
+      await router.push({
+        name: "login"
+      });
+
+    } else {
+      return {};
+    }
+  }
 };
 
-// Запуск поиска формы
-const search = (sort, filter, search) => {
+// Запуск поиска формы(или данных)
+const search = async (page, sort = null, filter = null, search = null) => {
   globalDisable.value = true;
 
-  params.sort = sort;
-  params.filter = filter;
-  params.search = search;
-  params.nextPage = 1;
+  params.page = page;
 
-  console.log(sort)
+  if (typeof sort !== null) {
+    params.sort = sort;
+  }
+
+  if (typeof filter !== null) {
+    params.filter = filter;
+  }
+
+  if (typeof search !== null) {
+    params.search = search;
+  }
 
   // Запрос получения данных
-  // ...
+  const membershipsData = await getMembershipsPagination();
+
+  console.log(membershipsData);
+
+  memberships.items = membershipsData['data'] ?? [];
 
   // Обновление пагинации
+  currentPage.value = membershipsData['current_page'] ?? 1;
+  totalPages.value = membershipsData['last_page'] ?? 1;
 
   globalDisable.value = false;
 };
 
-// Пагинация
-const currentPage = ref(1);
+onMounted(async () => {
+  await search(1);
+});
 
-const totalPages = ref(32);
+// Наблюдаем за переходом на другую страницу
+watch(currentPage, async (newPage, oldPage) => {
+  if (isOldPagination.value) {
+    isOldPagination.value = false;
+
+    console.log(newPage)
+    await search(newPage);
+
+    isOldPagination.value = true;
+  }
+});
 </script>
 
 <template>
-  <!--Форма фильтрации, сортировки, поиска-->
-  <MembershipSearchForm :global-disable="globalDisable" @search="search"/>
+  <div class="membership-container">
+    <!--Форма фильтрации, сортировки, поиска-->
+    <MembershipSearchForm :global-disable="globalDisable" @search="search"/>
 
-  <!--Карточки-->
-  <v-container>
-    <v-row>
-      <v-col
-          v-for="membership in memberships"
-          :key="membership.id"
-          cols="12"
-          sm="6"
-          md="4"
-          lg="3"
-      >
-        <MembershipCard :membership="membership" :global-disable="globalDisable"/>
-      </v-col>
-    </v-row>
-  </v-container>
+    <!--Карточки-->
+    <template v-if="memberships.items.length > 0">
+      <v-container>
+        <v-row>
+          <v-col
+              v-for="membership in memberships.items"
+              :key="membership.id"
+              cols="12"
+              sm="6"
+              md="4"
+              lg="3"
+          >
+            <MembershipCard :membership="membership" :global-disable="globalDisable"/>
+          </v-col>
+        </v-row>
+      </v-container>
+    </template>
+    <template v-else>
+      <div class="d-flex justify-center align-center flex-column membership-not-found">
+        <p class="text-h4 text-center">
+          Nothing found.
+        </p>
+      </div>
+    </template>
 
-  <!--Пагинация-->
-  <div class="text-center">
-    <v-container class="pt-0">
-      <v-row justify="center">
-        <v-col
-            cols="12"
-            md="8"
-        >
-          <v-container class="max-width pt-1">
-            <v-pagination
-                v-model="currentPage"
-                :length="totalPages"
-                :disabled="globalDisable"
-            ></v-pagination>
-          </v-container>
-        </v-col>
-      </v-row>
-    </v-container>
+    <!--Пагинация-->
+    <div class="text-center">
+      <v-container class="pt-0">
+        <v-row justify="center">
+          <v-col
+              cols="12"
+              md="8"
+          >
+            <v-container class="max-width pt-1">
+              <v-pagination
+                  v-model="currentPage"
+                  :length="totalPages"
+                  :disabled="globalDisable"
+              ></v-pagination>
+            </v-container>
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
   </div>
 </template>
