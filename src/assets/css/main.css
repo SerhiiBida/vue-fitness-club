@@ -13,20 +13,30 @@
   width: 100%;
 }
 
-.text-multiline {
+.text-multiline-hidden {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-.membership-container {
+.memberships-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-.membership-not-found {
+.memberships-not-found {
+  flex-grow: 1;
+}
+
+.membership-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+.membership-container .v-card {
   flex-grow: 1;
 }
 

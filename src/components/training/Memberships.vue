@@ -12,7 +12,7 @@ const router = useRouter();
 const globalDisable = ref(false);
 
 // Пагинация
-const membershipContainer = ref(null);
+const membershipsContainer = ref(null);
 const currentPage = ref(1);
 const totalPages = ref(1);
 const isOldPagination = ref(true);
@@ -60,7 +60,7 @@ const search = async (page, sort = null, filter = null, search = null) => {
 
   // Прокручиваем страницу вверх
   await nextTick(() => {
-    membershipContainer.value.scrollIntoView({behavior: 'smooth'});
+    membershipsContainer.value.scrollIntoView({behavior: 'smooth'});
   });
 
   params.page = page;
@@ -107,8 +107,8 @@ watch(currentPage, async (newPage, oldPage) => {
 
 <template>
   <div
-      ref="membershipContainer"
-      class="membership-container"
+      ref="membershipsContainer"
+      class="memberships-container"
   >
     <!--Форма фильтрации, сортировки, поиска-->
     <MembershipSearchForm :global-disable="globalDisable" @search="search"/>
@@ -131,7 +131,7 @@ watch(currentPage, async (newPage, oldPage) => {
       </v-container>
     </template>
     <template v-else>
-      <div class="d-flex justify-center align-center flex-column membership-not-found">
+      <div class="d-flex justify-center align-center flex-column memberships-not-found">
         <p class="text-h4 text-center">
           Nothing found.
         </p>

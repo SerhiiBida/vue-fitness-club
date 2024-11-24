@@ -51,6 +51,14 @@ const router = createRouter({
             }
         },
         {
+            path: "/membership/:id",
+            name: "membership",
+            component: () => import("@/views/training/MembershipView.vue"),
+            meta: {
+                middleware: [auth],
+            }
+        },
+        {
             path: "/:pathMatch(.*)*",
             name: "not-found",
             component: () => import("@/views/errors/NotFoundView.vue"),

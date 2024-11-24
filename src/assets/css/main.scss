@@ -22,20 +22,32 @@
 }
 
 // MembershipCard.vue
-.text-multiline {
+.text-multiline-hidden {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-//Membership.vue
-.membership-container {
+//Memberships.vue
+.memberships-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-.membership-not-found {
+.memberships-not-found {
   flex-grow: 1;
+}
+
+//Membership.vue
+.membership-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+
+  .v-card {
+    flex-grow: 1;
+  }
 }

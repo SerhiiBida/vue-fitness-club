@@ -1,5 +1,4 @@
 <script setup>
-import {computed, ref} from "vue";
 import {useRouter} from "vue-router";
 
 import {useImage} from "@/composables/useImage.js";
@@ -8,14 +7,29 @@ const router = useRouter();
 
 const {membership, globalDisable} = defineProps({
   membership: Object,
-  globalDisable: Boolean
+  globalDisable: Boolean,
+  largeDescription: {
+    type: Boolean,
+    default: false
+  },
+  cardHeight: {
+    type: String,
+    default: "490"
+  },
+  cardMaxWidth: {
+    type: String,
+    default: "374"
+  }
 });
 
 const {getFullPathPicture} = useImage();
 
 function goToDetail() {
   router.push({
-    name: 'home'
+    name: "membership",
+    params: {
+      id: membership.id
+    }
   });
 }
 </script>
@@ -24,8 +38,8 @@ function goToDetail() {
   <v-card
       :disabled="globalDisable"
       class="mx-auto"
-      max-width="374"
-      height="490"
+      :max-width="cardMaxWidth"
+      :height="cardHeight"
       border
   >
     <template v-slot:loader="{ isActive }">
@@ -82,20 +96,22 @@ function goToDetail() {
 
     <!--Описание абонемента-->
     <v-card-text>
-      <div class="text-justify text-multiline">
+      <div class="text-justify" :class="{'text-multiline-hidden': !largeDescription}">
         {{ membership['description'] }}
       </div>
     </v-card-text>
 
 
     <v-card-actions>
-      <v-btn
-          color="orange-darken-2"
-          text="Detail"
-          block
-          variant="flat"
-          @click="goToDetail"
-      ></v-btn>
+      <slot name="button-action">
+        <v-btn
+            color="orange-darken-2"
+            text="Detail"
+            block
+            variant="flat"
+            @click="goToDetail"
+        ></v-btn>
+      </slot>
     </v-card-actions>
   </v-card>
 </template>
