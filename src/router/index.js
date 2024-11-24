@@ -51,7 +51,7 @@ const router = createRouter({
             }
         },
         {
-            path: "/membership/:id",
+            path: "/memberships/:id",
             name: "membership",
             component: () => import("@/views/training/MembershipView.vue"),
             meta: {
