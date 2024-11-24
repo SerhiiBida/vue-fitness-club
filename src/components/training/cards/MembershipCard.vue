@@ -4,26 +4,14 @@ import {useRouter} from "vue-router";
 
 import {useImage} from "@/composables/useImage.js";
 
+const router = useRouter();
+
 const {membership, globalDisable} = defineProps({
   membership: Object,
   globalDisable: Boolean
 });
 
-const {getFullPathPicture} = useImage('/memberships/default/default.png');
-
-// Загрузка карточки
-const loading = ref(false);
-
-// Покупка абонемента
-// const buyMembership = async () => {
-//   loading.value = true;
-//
-//   setTimeout(() => {
-//     loading.value = false;
-//   }, 2000);
-// };
-
-const router = useRouter();
+const {getFullPathPicture} = useImage();
 
 function goToDetail() {
   router.push({
@@ -34,8 +22,7 @@ function goToDetail() {
 
 <template>
   <v-card
-      :disabled="globalDisable || loading"
-      :loading="loading"
+      :disabled="globalDisable"
       class="mx-auto"
       max-width="374"
       height="490"
@@ -52,7 +39,7 @@ function goToDetail() {
 
     <v-img
         max-height="250"
-        :src="getFullPathPicture"
+        :src="getFullPathPicture(membership['image_path'])"
         contain
     ></v-img>
 

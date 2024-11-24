@@ -14,6 +14,7 @@ export const useUserStore = defineStore("user", () => {
         username: "",
         email: "",
         bonuses: 0,
+        imagePath: "",
         isAuthenticated: false
     });
 
@@ -25,6 +26,8 @@ export const useUserStore = defineStore("user", () => {
         Object.keys(user).forEach((key) => {
             if (typeof user[key] === "string") {
                 user[key] = "";
+            } else if (typeof user[key] === "number") {
+                user[key] = 0;
             } else {
                 user[key] = false;
             }
@@ -44,6 +47,9 @@ export const useUserStore = defineStore("user", () => {
 
                 } else if (key === "isAuthenticated") {
                     user[key] = true;
+
+                } else if (key === "imagePath") {
+                    user[key] = userData['image_path'];
 
                 } else {
                     user[key] = userData[key];
