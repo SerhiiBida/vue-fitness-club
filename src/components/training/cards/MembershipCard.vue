@@ -8,6 +8,10 @@ const router = useRouter();
 const {membership, globalDisable} = defineProps({
   membership: Object,
   globalDisable: Boolean,
+  loading: {
+    type: Boolean,
+    default: false
+  },
   largeDescription: {
     type: Boolean,
     default: false
@@ -37,6 +41,7 @@ function goToDetail() {
 <template>
   <v-card
       :disabled="globalDisable"
+      :loading="loading"
       class="mx-auto"
       :max-width="cardMaxWidth"
       :height="cardHeight"
@@ -102,8 +107,8 @@ function goToDetail() {
     </v-card-text>
 
 
-    <v-card-actions>
-      <slot name="button-action">
+    <slot name="button-action">
+      <v-card-actions>
         <v-btn
             color="orange-darken-2"
             text="Detail"
@@ -111,7 +116,7 @@ function goToDetail() {
             variant="flat"
             @click="goToDetail"
         ></v-btn>
-      </slot>
-    </v-card-actions>
+      </v-card-actions>
+    </slot>
   </v-card>
 </template>
