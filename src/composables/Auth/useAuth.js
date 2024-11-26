@@ -66,7 +66,7 @@ export const useAuth = (router = undefined, displayServerErrors = undefined) => 
 
         const userStore = useUserStore();
 
-        userStore.reset();
+        userStore.resetUser();
 
         setCookie("token", "", {"max-age": 0});
 

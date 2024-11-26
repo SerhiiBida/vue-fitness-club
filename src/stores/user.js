@@ -23,7 +23,7 @@ export const useUserStore = defineStore("user", () => {
         return user.isAuthenticated;
     });
 
-    function reset() {
+    function resetUser() {
         Object.keys(user).forEach((key) => {
             if (typeof user[key] === "string") {
                 user[key] = "";
@@ -59,7 +59,7 @@ export const useUserStore = defineStore("user", () => {
 
         } catch (error) {
             if (error.response.status === 402) {
-                reset();
+                resetUser();
 
                 await router.push({
                     name: "login"
@@ -72,6 +72,6 @@ export const useUserStore = defineStore("user", () => {
         user,
         isAuthenticated,
         updateUser,
-        reset
+        resetUser
     };
 });
