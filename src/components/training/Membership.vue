@@ -88,6 +88,8 @@ const buyMembership = async (userId, membershipId, bonuses, serverError) => {
   try {
     const response = await api.post(`/membership-purchase/buy`, {userId, membershipId, bonuses});
 
+    userStore.updateUser();
+
     await router.push({
       name: "profile"
     });
@@ -96,6 +98,11 @@ const buyMembership = async (userId, membershipId, bonuses, serverError) => {
     if (error.response?.status === 401) {
       await router.push({
         name: "login"
+      });
+
+    } else if (error.response?.status === 403) {
+      await router.push({
+        name: "memberships"
       });
 
     } else if (error.response?.status === 422) {
