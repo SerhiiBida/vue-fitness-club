@@ -10,6 +10,7 @@ export const useUserStore = defineStore("user", () => {
     const router = useRouter();
 
     const user = reactive({
+        id: 0,
         token: "",
         username: "",
         email: "",
@@ -70,6 +71,7 @@ export const useUserStore = defineStore("user", () => {
     return {
         user,
         isAuthenticated,
-        updateUser
+        updateUser,
+        reset
     };
 });

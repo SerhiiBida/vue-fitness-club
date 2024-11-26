@@ -1,5 +1,6 @@
 import api from "@/api/axios.js";
 import {useCookie} from "@/composables/useCookie.js";
+import {useUserStore} from "@/stores/user.js";
 
 export const useAuth = (router = undefined, displayServerErrors = undefined) => {
     const {setCookie} = useCookie();
@@ -62,6 +63,10 @@ export const useAuth = (router = undefined, displayServerErrors = undefined) => 
         } catch (error) {
             console.log(error.response?.status);
         }
+
+        const userStore = useUserStore();
+
+        userStore.reset();
 
         setCookie("token", "", {"max-age": 0});
 
