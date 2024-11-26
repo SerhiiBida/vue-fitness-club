@@ -4,6 +4,7 @@ import {useUserStore} from "@/stores/user.js";
 
 export const useAuth = (router = undefined, displayServerErrors = undefined) => {
     const {setCookie} = useCookie();
+    const userStore = useUserStore();
 
     const register = async (form) => {
         try {
@@ -64,8 +65,6 @@ export const useAuth = (router = undefined, displayServerErrors = undefined) => 
             console.log(error.response?.status);
         }
 
-        const userStore = useUserStore();
-
         userStore.resetUser();
 
         setCookie("token", "", {"max-age": 0});
@@ -83,6 +82,8 @@ export const useAuth = (router = undefined, displayServerErrors = undefined) => 
             return true;
 
         } catch (error) {
+            userStore.resetUser();
+
             setCookie("token", "", {"max-age": 0});
 
             return false;

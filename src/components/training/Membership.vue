@@ -99,7 +99,7 @@ const buyMembership = async (userId, membershipId, bonuses, serverError) => {
       });
 
     } else if (error.response?.status === 422) {
-      serverError.value = error.response.data.error;
+      serverError.value = error.response.data.message;
 
     } else {
       serverError.value = "Try again later";
