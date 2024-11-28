@@ -73,7 +73,7 @@ function goToDetail() {
 
       <v-card-subtitle>
         <span>
-          {{ training['type'] }}
+          {{ training['training_type'] }}
         </span>
       </v-card-subtitle>
 
