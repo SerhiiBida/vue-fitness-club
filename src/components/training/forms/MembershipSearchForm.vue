@@ -1,14 +1,9 @@
 <script setup>
 import {reactive} from "vue";
+import SearchForm from "@/components/ui/forms/SearchForm.vue";
 
 const {globalDisable} = defineProps({
   globalDisable: Boolean
-});
-
-const form = reactive({
-  sort: null,
-  filter: null,
-  search: null
 });
 
 const sortItems = reactive([
@@ -26,75 +21,19 @@ const filterPriceItems = reactive([
   {value: 2, title: "500$ - 999$"},
   {value: 3, title: "1000$+"}
 ]);
+
+const emit = defineEmits(['search']);
+
+const search = (page, sort, filter, search) => {
+  emit('search', page, sort, filter, search);
+};
 </script>
 
 <template>
-  <v-form
-      ref="formRef"
-      action="#"
-      method="get"
-      class="membership-search-form"
-      @submit.prevent="$emit('search', 1, form.sort, form.filter, form.search)"
-  >
-    <v-container
-        class="mx-auto pb-0"
-    >
-      <v-row>
-        <v-col
-            class="pb-0"
-            cols="12"
-            sm="4"
-        >
-          <v-select
-              v-model="form.sort"
-              label="Sort"
-              :items="sortItems"
-              item-value="value"
-              item-title="title"
-              variant="outlined"
-          >
-          </v-select>
-        </v-col>
-
-        <v-col
-            class="pb-0"
-            cols="12"
-            sm="4"
-        >
-          <v-select
-              v-model="form.filter"
-              label="Price"
-              :items="filterPriceItems"
-              item-value="value"
-              item-title="title"
-              variant="outlined"
-          >
-          </v-select>
-        </v-col>
-
-        <v-col
-            class="d-flex ga-1 pb-0"
-            cols="12"
-            sm="4"
-        >
-          <v-text-field
-              v-model="form.search"
-              label="Search"
-              variant="outlined"
-          >
-          </v-text-field>
-          <v-btn
-              color="orange-darken-2"
-              icon="mdi-magnify"
-              text="Buy"
-              variant="flat"
-              class="mt-1"
-              type="submit"
-              :disabled="globalDisable"
-          >
-          </v-btn>
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-form>
+  <SearchForm
+      :global-disable="globalDisable"
+      :sort-items="sortItems"
+      :filter-items="filterPriceItems"
+      @submit="search"
+  />
 </template>
