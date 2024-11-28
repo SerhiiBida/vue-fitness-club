@@ -43,8 +43,10 @@
   flex-grow: 1;
 }
 
-//Membership.vue
-.membership-container {
+// Membership.vue
+// Training.vue
+.membership-container,
+.training-container {
   display: flex;
   justify-content: center;
   align-items: center;

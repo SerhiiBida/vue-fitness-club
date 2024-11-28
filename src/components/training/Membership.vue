@@ -46,7 +46,7 @@ const getMembership = async (id) => {
 // Проверка, куплен ли
 const checkBuyMembership = async (userId, membershipId) => {
   try {
-    const response = await api.post("/membership-purchase/check", {userId, membershipId});
+    const response = await api.post("/membership-purchases/check", {userId, membershipId});
 
     return response.data["is_purchased"];
 
@@ -86,7 +86,7 @@ onMounted(async () => {
 // Запрос на покупку
 const buyMembership = async (userId, membershipId, bonuses, serverError) => {
   try {
-    const response = await api.post(`/membership-purchase/buy`, {userId, membershipId, bonuses});
+    const response = await api.post(`/membership-purchases/buy`, {userId, membershipId, bonuses});
 
     userStore.updateUser();
 

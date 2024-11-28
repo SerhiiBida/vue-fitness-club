@@ -32,13 +32,15 @@
   flex-grow: 1;
 }
 
-.membership-container {
+.membership-container,
+.training-container {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
 }
-.membership-container .v-card {
+.membership-container .v-card,
+.training-container .v-card {
   flex-grow: 1;
 }
 

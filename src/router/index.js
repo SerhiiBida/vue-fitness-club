@@ -1,6 +1,7 @@
 import {createRouter, createWebHistory} from 'vue-router'
 
 import auth from "@/middleware/auth.js";
+import training from "@/middleware/training.js";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -47,7 +48,7 @@ const router = createRouter({
             name: "training",
             component: () => import("@/views/training/TrainingView.vue"),
             meta: {
-                middleware: [auth],
+                middleware: [auth, training],
             }
         },
         {
