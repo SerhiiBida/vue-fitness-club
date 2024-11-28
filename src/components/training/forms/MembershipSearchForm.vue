@@ -15,11 +15,11 @@ const sortItems = reactive([
 ]);
 
 const filterItems = reactive([
-  {value: "default", title: "Default"},
-  {value: 0, title: "0 - 99$"},
-  {value: 1, title: "100$ -499$"},
-  {value: 2, title: "500$ - 999$"},
-  {value: 3, title: "1000$+"}
+  {value: 0, title: "Default"},
+  {value: 1, title: "0 - 99$"},
+  {value: 2, title: "100$ -499$"},
+  {value: 3, title: "500$ - 999$"},
+  {value: 4, title: "1000$+"}
 ]);
 
 const emit = defineEmits(['search']);
