@@ -22,7 +22,7 @@ const getTrainingTypes = async () => {
   try {
     const response = await api.get("/training-types");
 
-    return response.data["is_registered"];
+    return response.data["training_types"];
 
   } catch (error) {
     if (error.response?.status === 401) {
@@ -38,8 +38,17 @@ const getTrainingTypes = async () => {
   }
 };
 
-onMounted(() => {
+onMounted(async () => {
+  // Загрузка названий категорий
+  const trainingTypes = await getTrainingTypes();
 
+  trainingTypes.forEach((trainingType) => {
+    filterItems.push({
+          value: trainingType.name,
+          title: trainingType.name
+        }
+    )
+  });
 });
 
 // Запуск поиска
