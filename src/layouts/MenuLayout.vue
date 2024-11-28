@@ -26,9 +26,9 @@ function goToProfile() {
   });
 }
 
-function goToWorkouts() {
+function goToTrainings() {
   router.push({
-    name: "workouts"
+    name: "trainings"
   });
 }
 
@@ -78,9 +78,9 @@ const {logout} = useAuth(router);
         </v-list-item>
         <v-list-item
             prepend-icon="mdi-soccer"
-            title="Workouts"
-            value="workouts"
-            @click="goToWorkouts"
+            title="Trainings"
+            value="trainings"
+            @click="goToTrainings"
         >
         </v-list-item>
         <v-list-item

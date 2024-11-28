@@ -15,7 +15,7 @@ export const useAuth = (router = undefined, displayServerErrors = undefined) => 
             setCookie("token", token, {secure: true, "max-age": 7200})
 
             await router.push({
-                name: "workouts"
+                name: "trainings"
             });
 
         } catch (error) {
@@ -40,7 +40,7 @@ export const useAuth = (router = undefined, displayServerErrors = undefined) => 
             setCookie("token", token, {secure: true, "max-age": 7200})
 
             await router.push({
-                name: "workouts"
+                name: "trainings"
             });
 
         } catch (error) {

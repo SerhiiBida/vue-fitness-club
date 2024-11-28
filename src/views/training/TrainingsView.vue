@@ -4,6 +4,6 @@
 
 <template>
   <h2>
-    Workouts
+    Trainings
   </h2>
 </template>

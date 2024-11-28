@@ -22,7 +22,7 @@ export default async function auth(to, from) {
     // Авторизованный, пытается зарегистрироваться
     if (authPages.includes(to.name) && isAuthenticated) {
         return {
-            name: "workouts"
+            name: "trainings"
         };
     }
 

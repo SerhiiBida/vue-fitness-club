@@ -21,7 +21,7 @@ export const useSocialAuth = (displayServerErrors, resetDisplayServerErrors) => 
             setCookie("token", token, {secure: true, "max-age": 7200})
 
             await router.push({
-                name: "workouts"
+                name: "trainings"
             });
 
         } catch (error) {
