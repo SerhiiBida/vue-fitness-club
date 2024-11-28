@@ -20,7 +20,7 @@ const form = reactive({
       action="#"
       method="get"
       class="search-form"
-      @submit.prevent="$emit('submit', 1, form.sort, form.filter, form.search)"
+      @submit.prevent="$emit('search', 1, form.sort, form.filter, form.search)"
   >
     <v-container
         class="mx-auto pb-0"
@@ -49,7 +49,7 @@ const form = reactive({
         >
           <v-select
               v-model="form.filter"
-              label="Price"
+              label="Filter"
               :items="filterItems"
               item-value="value"
               item-title="title"

@@ -1,9 +1,7 @@
 <script setup>
-
+import Trainings from "@/components/training/Trainings.vue";
 </script>
 
 <template>
-  <h2>
-    Trainings
-  </h2>
+  <Trainings/>
 </template>

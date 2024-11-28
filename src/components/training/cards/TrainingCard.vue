@@ -1,12 +1,13 @@
 <script setup>
 import {useRouter} from "vue-router";
 
-import {useImage} from "@/composables/useImage.js";
+import {computed} from "vue";
+import env from "../../../../env.js";
 
 const router = useRouter();
 
-const {membership, globalDisable} = defineProps({
-  membership: Object,
+const {training, globalDisable} = defineProps({
+  training: Object,
   globalDisable: Boolean,
   loading: {
     type: Boolean,
@@ -18,7 +19,7 @@ const {membership, globalDisable} = defineProps({
   },
   cardHeight: {
     type: String,
-    default: "490"
+    default: "477"
   },
   cardMaxWidth: {
     type: String,
@@ -26,13 +27,15 @@ const {membership, globalDisable} = defineProps({
   }
 });
 
-const {getFullPathPicture} = useImage();
+const getFullPathPicture = computed(() => {
+  return env.serverStorage + training['image_path'];
+});
 
 function goToDetail() {
   router.push({
-    name: "membership",
+    name: "training",
     params: {
-      id: membership.id
+      id: training.id
     }
   });
 }
@@ -58,51 +61,36 @@ function goToDetail() {
 
     <v-img
         max-height="250"
-        :src="getFullPathPicture(membership['image_path'])"
+        :src="getFullPathPicture"
         contain
     ></v-img>
 
     <v-card-item>
       <!--Название-->
       <v-card-title>
-        {{ membership['name'] }}
+        {{ training['name'] }}
       </v-card-title>
 
       <v-card-subtitle>
         <span>
-          Valid {{ membership['validity_days'] }} days
+          {{ training['type'] }}
         </span>
       </v-card-subtitle>
 
       <v-card-title class="d-flex justify-space-between">
-        <!--Цена и скидка-->
-        <div class="d-flex align-center ga-1">
-          <span class="text-h4 text-red font-weight-bold">
-            {{ membership['discounted_price'] }}
-          </span>
-          <del class="text-grey font-weight-bold">
-            {{ membership['price'] }}
-          </del>
-        </div>
-
-        <!--Бонус-->
+        <!--Имя тренера-->
         <div class="d-flex align-center">
           <span class="text-body-2 me-1">
-          +{{ membership['bonuses'] }}
+            {{ training['username'] }}
           </span>
-          <v-icon
-              color="orange-darken-4"
-              icon="mdi-star-four-points-circle-outline"
-              size="small"
-          ></v-icon>
         </div>
       </v-card-title>
     </v-card-item>
 
-    <!--Описание абонемента-->
+    <!--Описание-->
     <v-card-text>
       <div class="text-justify" :class="{'text-multiline-hidden': !largeDescription}">
-        {{ membership['description'] }}
+        {{ training['description'] }}
       </div>
     </v-card-text>
 

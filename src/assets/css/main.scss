@@ -29,14 +29,17 @@
   overflow: hidden;
 }
 
-//Memberships.vue
-.memberships-container {
+// Memberships.vue,
+// Trainings.vue
+.memberships-container,
+.trainings-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-.memberships-not-found {
+.memberships-not-found,
+.trainings-not-found {
   flex-grow: 1;
 }
 

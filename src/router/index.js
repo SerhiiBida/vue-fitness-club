@@ -43,6 +43,14 @@ const router = createRouter({
             }
         },
         {
+            path: "/trainings/:id",
+            name: "training",
+            component: () => import("@/views/training/TrainingView.vue"),
+            meta: {
+                middleware: [auth],
+            }
+        },
+        {
             path: "/memberships",
             name: "memberships",
             component: () => import("@/views/training/MembershipsView.vue"),

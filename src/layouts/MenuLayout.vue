@@ -3,13 +3,16 @@ import {useRouter} from "vue-router";
 
 import {useUserStore} from "@/stores/user.js";
 import {useAuth} from "@/composables/Auth/useAuth.js";
-import {useImage} from "@/composables/useImage.js";
+import {computed} from "vue";
+import env from "../../env.js";
 
 const drawer = defineModel();
 
 const userStore = useUserStore();
 
-const {getFullPathPicture} = useImage();
+const getFullPathPictureUser = computed(() => {
+  return env.serverStorage + userStore.user.imagePath;
+});
 
 // Навигация
 const router = useRouter();
@@ -53,7 +56,7 @@ const {logout} = useAuth(router);
     <v-list v-if="userStore.isAuthenticated">
       <v-list-item
           class="header-drawer-auth-info"
-          :prepend-avatar="getFullPathPicture(userStore.user.imagePath)"
+          :prepend-avatar="getFullPathPictureUser"
           :title="userStore.user.email"
           :subtitle="`Bonuses ${userStore.user.bonuses}`"
       ></v-list-item>

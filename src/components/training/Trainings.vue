@@ -1,10 +1,10 @@
 <script setup>
 import {nextTick, onMounted, reactive, ref, watch} from "vue";
-
-import MembershipCard from "@/components/training/cards/MembershipCard.vue";
-import MembershipSearchForm from "@/components/training/forms/MembershipSearchForm.vue";
-import api from "@/api/axios.js";
 import {useRouter} from "vue-router";
+
+import api from "@/api/axios.js";
+import TrainingSearchForm from "@/components/training/forms/TrainingSearchForm.vue";
+import TrainingCard from "@/components/training/cards/TrainingCard.vue";
 
 const router = useRouter();
 
@@ -12,13 +12,13 @@ const router = useRouter();
 const globalDisable = ref(false);
 
 // Пагинация
-const membershipsContainer = ref(null);
+const trainingsContainer = ref(null);
 const currentPage = ref(1);
 const totalPages = ref(1);
 const isOldPagination = ref(true);
 
 // Все абонементы
-const memberships = reactive({
+const trainings = reactive({
   items: []
 });
 
@@ -32,9 +32,9 @@ const params = reactive({
 });
 
 // Запрос на получение данных
-const getMembershipsPagination = async () => {
+const getTrainingsPagination = async () => {
   try {
-    const response = await api.get("/memberships/search", {
+    const response = await api.get("/trainings/search", {
       params: {
         ...params
       }
@@ -55,12 +55,12 @@ const getMembershipsPagination = async () => {
 };
 
 // Запуск поиска формы(или данных)
-const search = async (page, sort = null, filter = null, search = null) => {
+const search = async (page = 1, sort = null, filter = null, search = null) => {
   globalDisable.value = true;
 
   // Прокручиваем страницу вверх
   await nextTick(() => {
-    membershipsContainer.value.scrollIntoView({behavior: 'smooth'});
+    trainingsContainer.value.scrollIntoView({behavior: 'smooth'});
   });
 
   params.page = page;
@@ -78,13 +78,13 @@ const search = async (page, sort = null, filter = null, search = null) => {
   }
 
   // Запрос получения данных
-  const membershipsData = await getMembershipsPagination();
+  const trainingsData = await getTrainingsPagination();
 
-  memberships.items = membershipsData['data'] ?? [];
+  trainings.items = trainingsData['data'] ?? [];
 
   // Обновление пагинации
-  currentPage.value = membershipsData['current_page'] ?? 1;
-  totalPages.value = membershipsData['last_page'] ?? 1;
+  currentPage.value = trainingsData['current_page'] ?? 1;
+  totalPages.value = trainingsData['last_page'] ?? 1;
 
   globalDisable.value = false;
 };
@@ -107,31 +107,31 @@ watch(currentPage, async (newPage, oldPage) => {
 
 <template>
   <div
-      ref="membershipsContainer"
-      class="memberships-container"
+      ref="trainingsContainer"
+      class="trainings-container"
   >
     <!--Форма фильтрации, сортировки, поиска-->
-    <MembershipSearchForm :global-disable="globalDisable" @search="search"/>
+    <TrainingSearchForm :global-disable="globalDisable" @search="search"/>
 
     <!--Карточки-->
-    <template v-if="memberships.items.length > 0">
+    <template v-if="trainings.items.length > 0">
       <v-container>
         <v-row>
           <v-col
-              v-for="membership in memberships.items"
-              :key="membership.id"
+              v-for="training in trainings.items"
+              :key="training.id"
               cols="12"
               sm="6"
               md="4"
               lg="3"
           >
-            <MembershipCard :membership="membership" :global-disable="globalDisable"/>
+            <TrainingCard :training="training" :global-disable="globalDisable"/>
           </v-col>
         </v-row>
       </v-container>
     </template>
     <template v-else>
-      <div class="d-flex justify-center align-center flex-column memberships-not-found">
+      <div class="d-flex justify-center align-center flex-column trainings-not-found">
         <p class="text-h4 text-center">
           Nothing found.
         </p>

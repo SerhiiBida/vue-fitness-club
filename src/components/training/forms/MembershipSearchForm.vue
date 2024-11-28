@@ -14,7 +14,7 @@ const sortItems = reactive([
   {value: "bonuses", title: "Bonus"}
 ]);
 
-const filterPriceItems = reactive([
+const filterItems = reactive([
   {value: "default", title: "Default"},
   {value: 0, title: "0 - 99$"},
   {value: 1, title: "100$ -499$"},
@@ -33,7 +33,7 @@ const search = (page, sort, filter, search) => {
   <SearchForm
       :global-disable="globalDisable"
       :sort-items="sortItems"
-      :filter-items="filterPriceItems"
-      @submit="search"
+      :filter-items="filterItems"
+      @search="search"
   />
 </template>

@@ -1,7 +1,8 @@
 <script setup>
 import {useRouter} from "vue-router";
 
-import {useImage} from "@/composables/useImage.js";
+import {computed} from "vue";
+import env from "../../../../env.js";
 
 const router = useRouter();
 
@@ -26,7 +27,9 @@ const {membership, globalDisable} = defineProps({
   }
 });
 
-const {getFullPathPicture} = useImage();
+const getFullPathPicture = computed(() => {
+  return env.serverStorage + membership['image_path'];
+});
 
 function goToDetail() {
   router.push({
@@ -58,7 +61,7 @@ function goToDetail() {
 
     <v-img
         max-height="250"
-        :src="getFullPathPicture(membership['image_path'])"
+        :src="getFullPathPicture"
         contain
     ></v-img>
 
