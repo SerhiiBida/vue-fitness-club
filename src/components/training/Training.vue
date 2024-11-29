@@ -85,8 +85,6 @@ const createTrainingRegistration = async (trainingId, serverError) => {
 
     await updateCard();
 
-    checkRegister.value = true;
-
   } catch (error) {
     if (error.response?.status === 401) {
       await router.push({
@@ -119,6 +117,42 @@ const register = async () => {
 
   globalDisable.value = false;
 };
+
+
+// Запрос отписки от тренировки
+const deactivateTrainingRegistration = async (trainingId) => {
+  try {
+    const response = await api.post(`/training-registrations/deactivate`, {trainingId});
+
+    await router.push({
+      name: "trainings"
+    });
+
+  } catch (error) {
+    if (error.response?.status === 401) {
+      await router.push({
+        name: "login"
+      });
+
+    } else if (error.response?.status === 422) {
+      serverError.value = error.response.data.message;
+
+    } else {
+      serverError.value = "Try again later";
+    }
+  }
+};
+
+// Отписка от тренировки
+const deactivate = async () => {
+  globalDisable.value = true;
+
+  const membershipId = route.params.id;
+
+  await deactivateTrainingRegistration(membershipId, serverError);
+
+  globalDisable.value = false;
+};
 </script>
 
 <template>
@@ -133,24 +167,22 @@ const register = async () => {
           :card-max-width="'450'"
       >
         <template #button-action>
-          <template v-if="checkRegister">
-            <v-card-actions>
+          <v-card-actions class="d-flex flex-column">
+            <p class="text-red text-center mb-1">
+              {{ serverError }}
+            </p>
+
+            <template v-if="checkRegister">
               <v-btn
                   color="orange-darken-2"
-                  text="Already registered"
+                  text="Unsubscribe"
                   block
                   variant="flat"
-                  @click="router.push({name: 'profile'})"
+                  @click="deactivate"
               >
               </v-btn>
-            </v-card-actions>
-          </template>
-          <template v-else>
-            <v-card-actions class="d-flex flex-column">
-              <p class="text-red text-center mb-1">
-                {{ serverError }}
-              </p>
-
+            </template>
+            <template v-else>
               <v-btn
                   color="orange-darken-2"
                   text="Register"
@@ -159,8 +191,8 @@ const register = async () => {
                   @click="register"
               >
               </v-btn>
-            </v-card-actions>
-          </template>
+            </template>
+          </v-card-actions>
         </template>
       </TrainingCard>
     </template>

@@ -95,7 +95,7 @@ function goToDetail() {
     </v-card-text>
 
     <!--Список абонементов, что дают доступ к тренировке-->
-    <template v-if="training['memberships'].length">
+    <template v-if="training['memberships']?.length">
       <v-divider class="mx-4 mb-1"></v-divider>
 
       <v-card-title>Memberships that fit</v-card-title>
