@@ -12,7 +12,7 @@ const router = createRouter({
             component: () => import("@/views/HomeView.vue"),
         },
         {
-            path: "/user/login",
+            path: "/profile/login",
             name: "login",
             component: () => import("@/views/auth/LoginView.vue"),
             meta: {
@@ -20,7 +20,7 @@ const router = createRouter({
             }
         },
         {
-            path: "/user/register",
+            path: "/profile/register",
             name: "register",
             component: () => import("@/views/auth/RegisterView.vue"),
             meta: {
@@ -28,9 +28,9 @@ const router = createRouter({
             }
         },
         {
-            path: "/user/profile",
+            path: "/profile/profile",
             name: "profile",
-            component: () => import("@/views/user/ProfileView.vue"),
+            component: () => import("@/views/profile/ProfileView.vue"),
             meta: {
                 middleware: [auth],
             }

@@ -1,6 +1,6 @@
 export const useCookie = () => {
     // Пример:
-    // setCookie('user', 'John', {secure: true, 'max-age': 3600});
+    // setCookie('profile', 'John', {secure: true, 'max-age': 3600});
     const setCookie = (name, value, options = {}) => {
         options = {
             path: '/',
