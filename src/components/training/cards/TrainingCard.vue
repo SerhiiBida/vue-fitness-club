@@ -94,6 +94,25 @@ function goToDetail() {
       </div>
     </v-card-text>
 
+    <!--Список абонементов, что дают доступ к тренировке-->
+    <template v-if="training['memberships'].length">
+      <v-divider class="mx-4 mb-1"></v-divider>
+
+      <v-card-title>Memberships that fit</v-card-title>
+
+      <div class="px-4 mb-2">
+        <v-chip-group selected-class="bg-deep-purple-lighten-2">
+          <v-chip v-for="membership in training['memberships']" :key="membership.id">
+            <RouterLink
+                class="text-decoration-none"
+                :to="{name: 'membership', params: {id: membership.id}}"
+            >
+              {{ membership.name }}
+            </RouterLink>
+          </v-chip>
+        </v-chip-group>
+      </div>
+    </template>
 
     <slot name="button-action">
       <v-card-actions>
