@@ -2,7 +2,9 @@ import api from "@/api/axios.js";
 
 export default async function training(to, from) {
     try {
-        const response = await api.post("/trainings/check-access", {userId, trainingId});
+        const trainingId = to.params.id;
+
+        const response = await api.post("/trainings/check-access", {trainingId});
 
         const access = response.data["is_access"];
 

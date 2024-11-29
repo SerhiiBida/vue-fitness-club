@@ -3,11 +3,7 @@ import {onMounted, reactive, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 
 import api from "@/api/axios.js";
-import {useUserStore} from "@/stores/user.js";
 import TrainingCard from "@/components/training/cards/TrainingCard.vue";
-
-// Пользователь
-const userStore = useUserStore();
 
 // Маршрутизация
 const router = useRouter();
@@ -44,9 +40,9 @@ const getTraining = async (id) => {
 };
 
 // Проверка, куплен ли
-const checkRegisterForTraining = async (userId, trainingId) => {
+const checkRegisterForTraining = async (trainingId) => {
   try {
-    const response = await api.post("/training-registration/check", {userId, trainingId});
+    const response = await api.post("/training-registrations/check", {trainingId});
 
     return response.data["is_registered"];
 
@@ -68,10 +64,9 @@ const checkRegisterForTraining = async (userId, trainingId) => {
 const updateCard = async () => {
   globalDisable.value = true;
 
-  const userId = userStore.user.id;
   const trainingId = route.params.id;
 
-  checkRegister.value = await checkRegisterForTraining(userId, trainingId);
+  checkRegister.value = await checkRegisterForTraining(trainingId);
 
   training.fields = await getTraining(trainingId);
 
@@ -84,9 +79,9 @@ onMounted(async () => {
 
 
 // Запрос регистрации на тренировку
-const createTrainingRegistration = async (userId, trainingId, serverError) => {
+const createTrainingRegistration = async (trainingId, serverError) => {
   try {
-    const response = await api.post(`/training-registration/register`, {userId, trainingId});
+    const response = await api.post(`/training-registrations/register`, {trainingId});
 
     await updateCard();
 
@@ -118,10 +113,9 @@ const serverError = ref("");
 const register = async () => {
   globalDisable.value = true;
 
-  const userId = userStore.user.id;
   const membershipId = route.params.id;
 
-  await createTrainingRegistration(userId, membershipId, serverError);
+  await createTrainingRegistration(membershipId, serverError);
 
   globalDisable.value = false;
 };
