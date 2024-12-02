@@ -30,7 +30,10 @@ const duration = computed(() => {
       :disabled="globalDisable"
   >
     <template v-slot:actions>
-      <ScheduleVisitForm :visit-user="schedule.users"/>
+      <ScheduleVisitForm
+          :visit-user="schedule.users"
+          :schedule-id="schedule.id"
+          @update-schedule="$emit('updateSchedule')"/>
     </template>
   </v-card>
 </template>

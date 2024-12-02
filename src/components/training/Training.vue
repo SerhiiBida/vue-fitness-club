@@ -112,6 +112,8 @@ const serverError = ref("");
 const register = async () => {
   globalDisable.value = true;
 
+  serverError.value = "";
+
   const membershipId = route.params.id;
 
   await createTrainingRegistration(membershipId, serverError);

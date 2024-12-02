@@ -29,6 +29,8 @@ const params = reactive({
   perPage: 3, // Карточек на страницу
 });
 
+const serverError = ref("");
+
 // Запрос на получение данных
 const getSchedulesPagination = async () => {
   try {
@@ -47,9 +49,9 @@ const getSchedulesPagination = async () => {
       });
 
     } else if (error.response?.status === 403) {
-      await router.push({
-        name: "trainings"
-      });
+      serverError.value = error.response.data.message;
+
+      return {};
 
     } else {
       return {};
@@ -60,6 +62,8 @@ const getSchedulesPagination = async () => {
 // Получение данных
 const loadingData = async (page) => {
   globalDisable.value = true;
+
+  serverError.value = "";
 
   // Прокручиваем страницу вверх
   await nextTick(() => {
@@ -81,7 +85,7 @@ const loadingData = async (page) => {
 };
 
 onMounted(async () => {
-  await loadingData(1);
+  await loadingData();
 });
 
 // Наблюдаем за переходом на другую страницу
@@ -106,10 +110,21 @@ watch(currentPage, async (newPage, oldPage) => {
     </p>
 
     <!--Расписания-->
-    <template v-if="schedules.items.length">
+    <template v-if="serverError">
+      <div class="py-5">
+        <p class="text-h4 text-center">
+          {{ serverError }}
+        </p>
+      </div>
+    </template>
+    <template v-else-if="schedules.items.length">
       <v-container class="schedules-items">
         <template v-for="schedule in schedules.items" :key="schedule.id">
-          <ScheduleCard :schedule="schedule" :global-disable="globalDisable"/>
+          <ScheduleCard
+              :schedule="schedule"
+              :global-disable="globalDisable"
+              @update-schedule="loadingData(currentPage)"
+          />
         </template>
       </v-container>
     </template>
