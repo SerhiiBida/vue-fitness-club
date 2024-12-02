@@ -32,16 +32,35 @@
   flex-grow: 1;
 }
 
-.membership-container,
-.training-container {
+.membership-container {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
 }
-.membership-container .v-card,
-.training-container .v-card {
+.membership-container .v-card {
   flex-grow: 1;
+}
+
+.training-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.schedules-container {
+  width: 100%;
+}
+.schedules-container .schedules-items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+.schedules-container .schedules-items .v-card {
+  margin: 0 !important;
 }
 
 /*# sourceMappingURL=main.css.map */

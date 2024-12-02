@@ -4,6 +4,7 @@ import {useRoute, useRouter} from "vue-router";
 
 import api from "@/api/axios.js";
 import TrainingCard from "@/components/training/cards/TrainingCard.vue";
+import SchedulesBlock from "@/components/training/blocks/SchedulesBlock.vue";
 
 // Маршрутизация
 const router = useRouter();
@@ -156,7 +157,7 @@ const deactivate = async () => {
 </script>
 
 <template>
-  <div class="training-container">
+  <div class="training-container pa-2">
     <template v-if="Object.keys(training.fields).length">
       <TrainingCard
           :training="training.fields"
@@ -195,6 +196,10 @@ const deactivate = async () => {
           </v-card-actions>
         </template>
       </TrainingCard>
+    </template>
+
+    <template v-if="checkRegister">
+      <SchedulesBlock/>
     </template>
   </div>
 </template>

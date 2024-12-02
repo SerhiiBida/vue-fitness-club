@@ -44,9 +44,7 @@
 }
 
 // Membership.vue
-// Training.vue
-.membership-container,
-.training-container {
+.membership-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -54,5 +52,30 @@
 
   .v-card {
     flex-grow: 1;
+  }
+}
+
+// Training.vue
+.training-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+// SchedulesBlock.vue
+.schedules-container {
+  width: 100%;
+
+  .schedules-items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+
+    .v-card {
+      margin: 0 !important;
+    }
   }
 }
