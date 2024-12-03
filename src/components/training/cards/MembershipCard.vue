@@ -77,29 +77,31 @@ function goToDetail() {
         </span>
       </v-card-subtitle>
 
-      <v-card-title class="d-flex justify-space-between">
-        <!--Цена и скидка-->
-        <div class="d-flex align-center ga-1">
+      <slot name="price-and-bonuses">
+        <v-card-title class="d-flex justify-space-between">
+          <!--Цена и скидка-->
+          <div class="d-flex align-center ga-1">
           <span class="text-h4 text-red font-weight-bold">
             {{ membership['discounted_price'] }}
           </span>
-          <del class="text-grey font-weight-bold">
-            {{ membership['price'] }}
-          </del>
-        </div>
+            <del class="text-grey font-weight-bold">
+              {{ membership['price'] }}
+            </del>
+          </div>
 
-        <!--Бонус-->
-        <div class="d-flex align-center">
+          <!--Бонус-->
+          <div class="d-flex align-center">
           <span class="text-body-2 me-1">
           +{{ membership['bonuses'] }}
           </span>
-          <v-icon
-              color="orange-darken-4"
-              icon="mdi-star-four-points-circle-outline"
-              size="small"
-          ></v-icon>
-        </div>
-      </v-card-title>
+            <v-icon
+                color="orange-darken-4"
+                icon="mdi-star-four-points-circle-outline"
+                size="small"
+            ></v-icon>
+          </div>
+        </v-card-title>
+      </slot>
     </v-card-item>
 
     <!--Описание абонемента-->
