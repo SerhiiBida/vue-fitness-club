@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, reactive, ref} from "vue";
+import {onMounted, reactive, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
 
 import api from "@/api/axios.js";
@@ -77,6 +77,13 @@ const updateCard = async () => {
 onMounted(async () => {
   await updateCard();
 });
+
+watch(
+    () => route.params.id,
+    async (newId) => {
+      await updateCard();
+    }
+);
 
 
 // Запрос регистрации на тренировку

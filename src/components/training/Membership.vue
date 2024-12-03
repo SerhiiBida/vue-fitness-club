@@ -1,5 +1,5 @@
 <script setup>
-import {computed, onMounted, reactive, ref} from "vue";
+import {computed, onMounted, reactive, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
 
 import MembershipCard from "@/components/training/cards/MembershipCard.vue";
@@ -81,6 +81,13 @@ const updateCard = async () => {
 onMounted(async () => {
   await updateCard();
 });
+
+watch(
+    () => route.params.id,
+    async (newId) => {
+      await updateCard();
+    }
+);
 
 
 // Запрос на покупку

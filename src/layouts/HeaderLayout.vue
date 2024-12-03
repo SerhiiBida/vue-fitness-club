@@ -4,6 +4,9 @@ import {useRouter} from "vue-router";
 
 import MenuLayout from "@/layouts/MenuLayout.vue";
 import GlobalSearchForm from "@/components/training/forms/GlobalSearchForm.vue";
+import {useUserStore} from "@/stores/user.js";
+
+const userStore = useUserStore();
 
 // Отображение бокового меню
 const drawer = ref(true);
@@ -42,7 +45,7 @@ function goToHome() {
     </v-toolbar-title>
 
     <!--Глобальный поиск-->
-    <GlobalSearchForm/>
+    <GlobalSearchForm v-if="userStore.isAuthenticated"/>
 
     <v-btn icon>
       <v-icon>mdi-magnify</v-icon>
