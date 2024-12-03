@@ -20,6 +20,14 @@ const autocompleteData = computed(() => {
   });
 });
 
+// Решение бага Vuetify
+// Счетчик для index(чтобы было уникально)
+const countIndex = ref(0);
+
+const uniqueIndex = (item) => {
+  return countIndex.value + item.raw.index;
+};
+
 const selectedItem = ref(null);
 
 const getProducts = async (name) => {
@@ -46,6 +54,8 @@ const timerId = ref(null);
 const search = async (event) => {
   clearTimeout(timerId.value);
 
+  console.log(products.items)
+
   const name = event.target.value;
 
   if (!name) {
@@ -55,6 +65,8 @@ const search = async (event) => {
   }
 
   timerId.value = setTimeout(async () => {
+    countIndex.value += products.items.length;
+
     products.items = await getProducts(name);
   }, 500);
 };
@@ -110,6 +122,7 @@ const clearAutocomplete = async () => {
     <template v-slot:item="{ props, item }">
       <v-list-item
           v-bind="props"
+          :key="uniqueIndex(item)"
           :prepend-avatar="env.serverStorage + item.raw.image_path"
           :title="item.raw.name"
       ></v-list-item>
