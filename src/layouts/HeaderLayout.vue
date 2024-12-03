@@ -3,6 +3,7 @@ import {ref} from "vue";
 import {useRouter} from "vue-router";
 
 import MenuLayout from "@/layouts/MenuLayout.vue";
+import GlobalSearchForm from "@/components/training/forms/GlobalSearchForm.vue";
 
 // Отображение бокового меню
 const drawer = ref(true);
@@ -34,9 +35,14 @@ function goToHome() {
             class="mr-2"
         >
         </v-img>
-        Fitness Club
+        <span>
+          Fitness club
+        </span>
       </div>
     </v-toolbar-title>
+
+    <!--Глобальный поиск-->
+    <GlobalSearchForm/>
 
     <v-btn icon>
       <v-icon>mdi-magnify</v-icon>

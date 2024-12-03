@@ -1,5 +1,11 @@
 // HeaderLayout.vue
-
+@media (max-width: 530px) {
+  .header-bar {
+    .header-bar-title span {
+      display: none;
+    }
+  }
+}
 
 // АУТЕНТИФИКАЦИЯ:
 // LoginView.vue
@@ -79,3 +85,5 @@
     }
   }
 }
+
+// GlobalSearchForm.vue
