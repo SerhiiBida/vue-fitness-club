@@ -14,19 +14,11 @@ const products = reactive({
 const autocompleteData = computed(() => {
   return products.items.map((item, index) => {
     return {
-      index,
+      uniqueIndex: index + '-' + Date.now(),
       ...item
     }
   });
 });
-
-// Решение бага Vuetify
-// Счетчик для index(чтобы было уникально)
-const countIndex = ref(0);
-
-const uniqueIndex = (item) => {
-  return countIndex.value + item.raw.index;
-};
 
 const selectedItem = ref(null);
 
@@ -54,8 +46,6 @@ const timerId = ref(null);
 const search = async (event) => {
   clearTimeout(timerId.value);
 
-  console.log(products.items)
-
   const name = event.target.value;
 
   if (!name) {
@@ -65,15 +55,21 @@ const search = async (event) => {
   }
 
   timerId.value = setTimeout(async () => {
-    countIndex.value += products.items.length;
-
     products.items = await getProducts(name);
   }, 500);
 };
 
 // Выбран товар(перенаправляем)
-watch(selectedItem, (newIndex) => {
-  if (!Number.isInteger(newIndex)) {
+watch(selectedItem, (newUniqueIndex) => {
+  console.log(autocompleteData.value);
+
+  if (!newUniqueIndex) {
+    return;
+  }
+
+  const newIndex = Number(newUniqueIndex.split('-')[0]);
+
+  if (isNaN(newIndex) || !Number.isInteger(newIndex)) {
     return;
   }
 
@@ -111,7 +107,7 @@ const clearAutocomplete = async () => {
       v-model="selectedItem"
       max-width="250"
       :items="autocompleteData"
-      item-value="index"
+      item-value="uniqueIndex"
       item-title="name"
       @input="search($event)"
       @blur="clearAutocomplete"
@@ -122,7 +118,6 @@ const clearAutocomplete = async () => {
     <template v-slot:item="{ props, item }">
       <v-list-item
           v-bind="props"
-          :key="uniqueIndex(item)"
           :prepend-avatar="env.serverStorage + item.raw.image_path"
           :title="item.raw.name"
       ></v-list-item>
