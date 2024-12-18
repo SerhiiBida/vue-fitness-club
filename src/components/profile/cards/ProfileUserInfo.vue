@@ -27,7 +27,12 @@ const getFullPathPictureUser = computed(() => {
           rounded="0"
           size="150"
       >
-        <v-img :src="getFullPathPictureUser" cover>
+        <v-img
+            max-width="100"
+            max-height="100"
+            :src="getFullPathPictureUser"
+            cover
+        >
         </v-img>
       </v-avatar>
       <v-list-item

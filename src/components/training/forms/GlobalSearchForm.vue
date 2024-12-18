@@ -61,8 +61,6 @@ const search = async (event) => {
 
 // Выбран товар(перенаправляем)
 watch(selectedItem, (newUniqueIndex) => {
-  console.log(autocompleteData.value);
-
   if (!newUniqueIndex) {
     return;
   }

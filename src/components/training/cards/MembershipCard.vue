@@ -45,7 +45,7 @@ function goToDetail() {
   <v-card
       :disabled="globalDisable"
       :loading="loading"
-      class="mx-auto"
+      class="mx-auto d-flex flex-column"
       :max-width="cardMaxWidth"
       :height="cardHeight"
       border
@@ -61,6 +61,7 @@ function goToDetail() {
 
     <v-img
         max-height="250"
+        min-height="250"
         :src="getFullPathPicture"
         contain
     ></v-img>
